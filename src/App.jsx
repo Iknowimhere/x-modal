@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 
 const App = () => {
   const [user, setUser] = React.useState({
@@ -8,6 +8,8 @@ const App = () => {
     dob: ''
   })
 
+  const [isModalOpen,setIsModalOpen] = useState(false);
+  const modalRef = useRef(null);
   const handleChange = (e) => {
     setUser({
       ...user,
@@ -25,20 +27,47 @@ const App = () => {
       alert('Invalid date of birth. Date of birth cannot be in the future.')
       return;
     }
-    console.log(user);
+
     setUser({
       username: '',
       email: '',
       phone: '',
       dob: ''
     })
+    setIsModalOpen(false);
   }
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleClickOutside = (event) => {
+    if (modalRef.current && !modalRef.current.contains(event.target)) {
+      closeModal();
+    }
+  };
+
+  useEffect(() => {
+    if (isModalOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    } else {
+      document.removeEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isModalOpen]);
   return (
 
     <div className="modal">
       <h1>User details Modal</h1>
-      <button>Open form</button>
-      <div className="modal-content">
+      <button onClick={openModal}>Open form</button>
+      {isModalOpen && (<div className="modal-content" ref={modalRef}>
         <h2>Fill details</h2>
           <form action="" onSubmit={handleSubmit}>
             <label htmlFor="username">Username</label>
@@ -52,7 +81,7 @@ const App = () => {
             <button type='submit' className='submit-button'>Submit</button>
           </form>
 
-      </div>
+      </div>)}
 
     </div>
   )
