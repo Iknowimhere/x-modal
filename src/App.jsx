@@ -66,7 +66,7 @@ const App = () => {
 
     <div className="modal">
       <h1>User details Modal</h1>
-      <button onClick={openModal}>Open form</button>
+      <button onClick={openModal}>Open Form</button>
       {isModalOpen && (<div className="modal-content" ref={modalRef}>
         <h2>Fill details</h2>
           <form action="" onSubmit={handleSubmit}>
