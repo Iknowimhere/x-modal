@@ -64,10 +64,12 @@ const App = () => {
   }, [isModalOpen]);
   return (
 
-    <div className="modal">
+    <div className="container">
       <h1>User details Modal</h1>
       <button onClick={openModal}>Open Form</button>
-      {isModalOpen && (<div className="modal-content" ref={modalRef}>
+      {isModalOpen && (
+        <div className="modal">
+        <div className="modal-content" ref={modalRef}>
         <h2>Fill details</h2>
           <form action="" onSubmit={handleSubmit}>
             <label htmlFor="username">Username</label>
@@ -80,7 +82,7 @@ const App = () => {
             <input type="date" name='dob'required value={user.dob} onChange={handleChange} id='dob'/>
             <button type='submit' className='submit-button'>Submit</button>
           </form>
-
+        </div>
       </div>)}
 
     </div>
